@@ -4,6 +4,7 @@
 
 #include "com_jeanboy_demo_jnitest_NdkTest.h"
 
+
 JNIEXPORT jstring JNICALL Java_com_jeanboy_demo_jnitest_NdkTest_getString
         (JNIEnv *env, jclass type) {
 
@@ -18,6 +19,6 @@ JNIEXPORT jstring JNICALL Java_com_jeanboy_demo_jnitest_NdkTest_getString
 JNIEXPORT jint JNICALL Java_com_jeanboy_demo_jnitest_NdkTest_doAdd
         (JNIEnv *env, jclass type, jint param1, jint param2) {
 
-    return param1 + param1;
+    return param1 + param2;
 }
 

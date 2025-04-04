@@ -1,73 +1,77 @@
-apply plugin: 'com.android.model.application'
-//apply plugin: 'com.android.application'
+apply plugin: 'com.android.application'
 
-model {
-    android {
-        compileSdkVersion 23
-        buildToolsVersion "23.0.3"
+android {
+    compileSdkVersion 33
+    buildToolsVersion "30.0.3"
 
-        defaultConfig {
-            applicationId "com.jeanboy.demo.jnitest"
-            minSdkVersion.apiLevel 15
-            targetSdkVersion.apiLevel 23
-            versionCode   1
-            versionName   "1.0"
+    defaultConfig {
+        applicationId "com.jeanboy.demo.jnitest"
+        minSdkVersion 26
+        targetSdkVersion 33
+        versionCode   1
+        versionName   "1.0"
 
-            buildConfigFields {
-                create() {
-                    type "int"
-                    name "VALUE"
-                    value "1"
-                }
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
             }
         }
-
-        ndk {//指定生成的lib，比如此时生成native.so
-            moduleName   "NdkTest"
+        ndk {
+            abiFilters "arm64-v8a", "armeabi-v7a"  //, "x86-64"
         }
-
-        buildTypes {
-            release {
-                minifyEnabled false
-                proguardFiles.add(file("proguard-rules.pro"))
-            }
-        }
-
     }
 
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles.add(file("proguard-rules.pro"))
+        }
+    }
 
-//    android.productFlavors {
-//        // for detailed abiFilter descriptions, refer to "Supported ABIs" @
-//        // https://developer.android.com/ndk/guides/abis.html#sa
-//        create("arm") {
-//            ndk.abiFilters.add("armeabi")
-//        }
-//        create("arm7") {
-//            ndk.abiFilters.add("armeabi-v7a")
-//        }
-//        create("arm8") {
-//            ndk.abiFilters.add("arm64-v8a")
-//        }
-//        create("x86") {
-//            ndk.abiFilters.add("x86")
-//        }
-//        create("x86-64") {
-//            ndk.abiFilters.add("x86_64")
-//        }
-//        create("mips") {
-//            ndk.abiFilters.add("mips")
-//        }
-//        create("mips-64") {
-//            ndk.abiFilters.add("mips64")
-//        }
-//        // To include all cpu architectures, leaves abiFilters empty
-//        create("all")
-//    }
+    /*ndk {//指定生成的lib，比如此时生成native.so
+        moduleName   "NdkTest"
+    }*/
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
 
+    /*sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            jni.srcDirs = []
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/proguard/coroutines.pro'
+        pickFirst 'lib/armeabi-v7a/libmp3lame.so'
+        pickFirst 'lib/arm64-v8a/libmp3lame.so'
+        pickFirst 'lib/armeabi-v7a/libffmpeg.so'
+        pickFirst 'lib/arm64-v8a/libffmpeg.so'
+    }*/
+    packagingOptions {
+        //doNotStrip "*/arm64-v8a/*.so"
+        //doNotStrip "*/armeabi-v7a/*.so"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
+
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.4.0'
-}
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
 
+    //implementation "androidx.appcompat:appcompat:1.6.0"
+    //testImplementation 'junit:junit:4.+'
+    //androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    /*androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })*/
+}

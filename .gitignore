@@ -1,9 +1,16 @@
 *.iml
-.gradle
+.gradle/
 .idea
-/local.properties
+local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
-/build
-/captures
+build/
+# Log/OS Files
+*.log
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+output.json

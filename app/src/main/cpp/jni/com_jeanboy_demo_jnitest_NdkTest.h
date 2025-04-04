@@ -4,9 +4,12 @@
 
 #ifndef _Included_com_jeanboy_demo_jnitest_NdkTest
 #define _Included_com_jeanboy_demo_jnitest_NdkTest
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 /*
  * Class:     com_jeanboy_demo_jnitest_NdkTest
  * Method:    getString
@@ -26,4 +29,5 @@ JNIEXPORT jint JNICALL Java_com_jeanboy_demo_jnitest_NdkTest_doAdd
 #ifdef __cplusplus
 }
 #endif
+
 #endif
