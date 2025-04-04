@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -15,11 +18,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void jniTest(View v) {
-        Toast.makeText(this, NdkTest.getString(), Toast.LENGTH_SHORT).show();
+        // 创建 SimpleDateFormat 对象并指定格式
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("mm:ss.SSS");
+        // 获取当前时间
+        Date now = new Date(NdkTest.getTimestampMillis());
+        // 格式化为字符串
+        String currentTime = sdf.format(now);
+        Toast.makeText(this, currentTime + "  " + NdkTest.getString(), Toast.LENGTH_SHORT).show();
     }
 
     public void jniTest2(View v) {
-
-        Toast.makeText(this, String.valueOf(NdkTest.doAdd(5, 12)), Toast.LENGTH_SHORT).show();
+        long tsMs = NdkTest.getTimestampMillis();
+        int ia = (int) (tsMs / 3 % 100);
+        int ib = (int) (-tsMs * 2 / 3 % 10);
+        int ir = NdkTest.doAdd(ia, ib);
+        String str = ia + (ib >= 0 ? "+" : "") + ib + "=" + ir;
+        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 }

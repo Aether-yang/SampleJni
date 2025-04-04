@@ -9,5 +9,6 @@ public class NdkTest {
     }
 
     public static native String getString();
+    public static native long getTimestampMillis();
     public static native int doAdd(int param1,int param2);
 }

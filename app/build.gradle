@@ -1,31 +1,51 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
+    //noinspection GradleDependency
+    compileSdk 33
     buildToolsVersion "30.0.3"
-
+    ndkVersion "25.2.9519653"
+    //useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.jeanboy.demo.jnitest"
-        minSdkVersion 26
-        targetSdkVersion 33
+        minSdk 26
+        //noinspection OldTargetApi
+        targetSdk 33
         versionCode   1
         versionName   "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                cppFlags ""
+                cppFlags "-std=c++11"  //可选：指定 C++ 标准
+                abiFilters "armeabi-v7a" , "arm64-v8a", "x86", "x86_64" //, "armeabi", "mips", "mips64"
             }
         }
         ndk {
-            abiFilters "arm64-v8a", "armeabi-v7a"  //, "x86-64"
+            //noinspection ChromeOsAbiSupport
+            abiFilters "arm64-v8a", "armeabi-v7a" //, "x86_64", "x86"
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile file("../example.keystore")
+            storePassword "android"
+            keyAlias "example"
+            keyPassword "android"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles.add(file("proguard-rules.pro"))
+            signingConfig signingConfigs.release
+            //proguardFiles.add(file("proguard-rules.pro"))
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            signingConfig signingConfigs.release
+            minifyEnabled false
         }
     }
 
@@ -34,18 +54,18 @@ android {
     }*/
     externalNativeBuild {
         cmake {
-            path "src/main/cpp/CMakeLists.txt"
-            version "3.10.2"
+            path "src/main/cpp/CMakeLists.txt"  // CMakeLists.txt 路径
+            version "3.10.2"                    // CMake 版本
         }
     }
 
-    /*sourceSets {
+    sourceSets {
         main {
+            jni.srcDirs = ['src/main/cpp']
             jniLibs.srcDirs = ['libs']
-            jni.srcDirs = []
         }
     }
-    packagingOptions {
+    /*packagingOptions {
         exclude 'META-INF/proguard/coroutines.pro'
         pickFirst 'lib/armeabi-v7a/libmp3lame.so'
         pickFirst 'lib/arm64-v8a/libmp3lame.so'
@@ -61,6 +81,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    /*lintOptions {
+        tasks.lint.enabled = false
+        checkReleaseBuilds false
+        abortOnError false
+        textReport false
+        htmlReport false
+        xmlReport false
+    }
+    dataBinding {
+        enabled = true
+    }*/
 }
 
 
@@ -71,7 +102,7 @@ dependencies {
     //implementation "androidx.appcompat:appcompat:1.6.0"
     //testImplementation 'junit:junit:4.+'
     //androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    /*androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0', {
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })*/
+    }
 }

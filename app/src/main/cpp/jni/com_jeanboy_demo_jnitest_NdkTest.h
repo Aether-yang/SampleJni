@@ -20,6 +20,14 @@ JNIEXPORT jstring JNICALL Java_com_jeanboy_demo_jnitest_NdkTest_getString
 
 /*
  * Class:     com_jeanboy_demo_jnitest_NdkTest
+ * Method:    getTimestampMillis
+ * Signature: ()l;
+ */
+JNIEXPORT jlong JNICALL Java_com_jeanboy_demo_jnitest_NdkTest_getTimestampMillis
+        (JNIEnv *, jclass);
+
+/*
+ * Class:     com_jeanboy_demo_jnitest_NdkTest
  * Method:    doAdd
  * Signature: (II)I
  */
