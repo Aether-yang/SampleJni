@@ -22,14 +22,14 @@ int64_t getTimestampMsec() {
 
 JNIEXPORT jstring JNICALL Java_com_jeanboy_demo_jnitest_NdkTest_getString
         (JNIEnv *env, jclass type) {
-    __android_log_print(ANDROID_LOG_INFO, "MyJni", "%s", "getString");
+    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "%s", "getString");
     return env->NewStringUTF("hello world!!!");
 }
 
 JNIEXPORT jlong JNICALL Java_com_jeanboy_demo_jnitest_NdkTest_getTimestampMillis
         (JNIEnv *env, jclass type) {
     long tsMs = getTimestampMsec();
-    LOGI(LOG_TAG, "getTimestampMillis=%ld", tsMs);
+    //LOGI(LOG_TAG, "getTimestampMillis=%ld", tsMs);
     return tsMs;
 }
 
